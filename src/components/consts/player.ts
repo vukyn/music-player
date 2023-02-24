@@ -1,0 +1,1 @@
+export const DEFAULT_VOLUME_PLAYER = 50;
