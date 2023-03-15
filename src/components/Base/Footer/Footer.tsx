@@ -14,6 +14,7 @@ import {
 	Spacer,
 	keyframes,
 	Tooltip,
+	useColorMode,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import cover from 'public/Artwork.jpg';
@@ -32,7 +33,7 @@ import {
 	TbVolume3,
 	TbVolumeOff,
 } from 'react-icons/tb';
-import { DEFAULT_VOLUME_PLAYER } from '../consts/player';
+import { DEFAULT_VOLUME_PLAYER } from '../../consts/player';
 
 const Footer = () => {
 	const [playing, setPlaying] = useState(false);
@@ -43,6 +44,7 @@ const Footer = () => {
 	const [duration, setDuration] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [playerProgress, setPlayerProgress] = useState(0);
+	const { colorMode, toggleColorMode } = useColorMode();
 	const audioRef = useRef<HTMLAudioElement>(null);
 
 	const togglePlay = () => {
@@ -87,15 +89,15 @@ const Footer = () => {
 			display="flex"
 			wrap="wrap"
 			alignItems="center"
-			borderTopWidth={1}
-			borderStyle={'solid'}
-			bg={useColorModeValue('white', 'gray.900')}
+			borderTopWidth={colorMode === 'light' ? 1 : 0}
+			borderStyle={colorMode === 'light' ? 'solid' : 'none'}
+			borderColor={colorMode === 'light' ? 'gray.200' : 'none'}
+			bg={useColorModeValue('white', '#181818')}
 			color={useColorModeValue('gray.700', 'gray.200')}
-			borderColor={useColorModeValue('gray.200', 'gray.700')}
 		>
 			<Stack
 				pos="relative"
-				w={{ sm: '100%', md: '256px' }}
+				w={{ sm: 'full', md: '256px' }}
 				height={{ sm: '476px', md: '56px' }}
 				direction="row"
 				margin={5}
@@ -103,7 +105,8 @@ const Footer = () => {
 				justifyContent="center"
 				alignItems="center"
 			>
-				<Image src={cover.src} boxSize="56px" />
+				{/* <Image src={cover.src} boxSize="56px" /> */}
+				<Image src="https://i.scdn.co/image/ab67616d00001e02b848b08245e13ceea6d2f3d7" boxSize="56px" />
 				<Stack flexDirection="column" justifyContent="center" alignItems="center">
 					<Text fontSize="14px">In my Feeling</Text>
 					<Text color={useColorModeValue('gray.700', 'gray.400')} fontSize="12px">

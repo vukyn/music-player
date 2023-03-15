@@ -15,6 +15,7 @@ import {
 	MenuDivider,
 	MenuItem,
 	MenuList,
+	Stack,
 	Text,
 	useColorMode,
 	useColorModeValue,
@@ -23,15 +24,16 @@ import {
 import { useDisclosure } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { FiMenu, FiSun, FiMoon } from 'react-icons/fi';
-import LinkBase from '../temp/LinkBase';
+import LinkBase from '../../temp/LinkBase';
 import { MobileProps, NavItemProps, SidebarProps } from './types';
 import Image from 'next/image';
 import logo from 'public/spotify.png';
+import { CiCircleChevLeft, CiCircleChevRight } from 'react-icons/ci';
 
 const Sidebar = ({ children }: { children: ReactNode }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
-		<Box height="90vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+		<Box height="90vh" bg={useColorModeValue('whiteAlpha.50', '#121212')}>
 			<SidebarContent key={1} onClose={onClose} display={{ base: 'none', md: 'block' }} />
 			<Drawer
 				autoFocus={false}
@@ -54,15 +56,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 	return (
-		<Box
-			bg={useColorModeValue('white', 'gray.900')}
-			borderRight="1px"
-			borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-			w={{ base: 'full', md: 60 }}
-			pos="fixed"
-			h="full"
-			{...rest}
-		>
+		<Box bg={useColorModeValue('gray.100', 'black')} w={{ base: 'full', md: 60 }} pos="fixed" h="full" {...rest}>
 			<Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
 				<Image src={logo} alt="Spotify" />
 				<CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
@@ -124,61 +118,79 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
 			px={{ base: 4, md: 4 }}
 			height="20"
 			alignItems="center"
-			bg={useColorModeValue('white', 'gray.900')}
-			borderBottomWidth="1px"
-			borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-			justifyContent={{ base: 'space-between', md: 'flex-end' }}
+			bg={useColorModeValue('white', '#121212')}
+			justifyContent="space-between"
 			{...rest}
 		>
-			<IconButton
-				display={{ base: 'flex', md: 'none' }}
-				onClick={onOpen}
-				variant="outline"
-				aria-label="open menu"
-				icon={<FiMenu />}
-			/>
-
-			<Flex display={{ base: 'flex', md: 'none' }}>
-				<Image src={logo} alt="Spotify" />
-			</Flex>
-
-			<HStack spacing={{ base: '0', md: '6' }}>
+			<Stack direction="row">
 				<IconButton
-					size={'sm'}
-					variant={'ghost'}
-					aria-label={'Toggle Color Mode'}
-					onClick={toggleColorMode}
-					icon={colorMode == 'light' ? <FiMoon size={18} /> : <FiSun size={18} />}
+					border="none"
+					_hover={{ color: 'gray' }}
+					_active={{ backgroundColor: 'none' }}
+					variant="outline"
+					aria-label="Previous song"
+					fontSize="32px"
+					fontWeight="extrabold"
+					icon={<CiCircleChevLeft />}
 				/>
-				{/* <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} /> */}
-				<Flex alignItems={'center'}>
-					<Menu>
-						<MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
-							<HStack>
-								<Avatar
-									size={'sm'}
-									src={
-										'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-									}
-								/>
-								<VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
-									<Text fontSize="sm">Justina Clark</Text>
-									<Text fontSize="xs" color="gray.600">
-										Admin
-									</Text>
-								</VStack>
-							</HStack>
-						</MenuButton>
-						<MenuList bg={useColorModeValue('white', 'gray.900')} borderColor={useColorModeValue('gray.200', 'gray.700')}>
-							<MenuItem>Profile</MenuItem>
-							<MenuItem>Settings</MenuItem>
-							<MenuItem>Billing</MenuItem>
-							<MenuDivider />
-							<MenuItem>Sign out</MenuItem>
-						</MenuList>
-					</Menu>
+				<IconButton
+					border="none"
+					_hover={{ color: 'gray' }}
+					_active={{ backgroundColor: 'none' }}
+					variant="outline"
+					aria-label="Next song"
+					fontSize="32px"
+					icon={<CiCircleChevRight />}
+				/>
+			</Stack>
+			<Stack>
+				<IconButton
+					display={{ base: 'flex', md: 'none' }}
+					onClick={onOpen}
+					variant="outline"
+					aria-label="open menu"
+					icon={<FiMenu />}
+				/>
+
+				<Flex display={{ base: 'flex', md: 'none' }}>
+					<Image src={logo} alt="Spotify" />
 				</Flex>
-			</HStack>
+
+				<HStack spacing={{ base: '0', md: '6' }}>
+					<IconButton
+						size={'sm'}
+						_hover={{ color: 'gray' }}
+						_active={{ backgroundColor: 'none' }}
+						variant={'ghost'}
+						aria-label={'Toggle Color Mode'}
+						onClick={toggleColorMode}
+						icon={colorMode == 'light' ? <FiMoon size={18} /> : <FiSun size={18} />}
+					/>
+					{/* <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} /> */}
+					<Flex alignItems={'center'}>
+						<Menu>
+							<MenuButton py={2} transition="all 0.3s" _focus={{ boxShadow: 'none' }}>
+								<HStack>
+									<Avatar size={'sm'} src={'https://i.scdn.co/image/ab67616d00001e02786fe80ecdc416eaaf6109ec'} />
+									<VStack display={{ base: 'none', md: 'flex' }} alignItems="flex-start" spacing="1px" ml="2">
+										<Text fontSize="sm">Justina Clark</Text>
+										<Text fontSize="xs" color="gray.600">
+											Admin
+										</Text>
+									</VStack>
+								</HStack>
+							</MenuButton>
+							<MenuList bg={useColorModeValue('white', 'gray.900')} borderColor={useColorModeValue('gray.200', 'gray.700')}>
+								<MenuItem>Profile</MenuItem>
+								<MenuItem>Settings</MenuItem>
+								<MenuItem>Billing</MenuItem>
+								<MenuDivider />
+								<MenuItem>Sign out</MenuItem>
+							</MenuList>
+						</Menu>
+					</Flex>
+				</HStack>
+			</Stack>
 		</Flex>
 	);
 };
